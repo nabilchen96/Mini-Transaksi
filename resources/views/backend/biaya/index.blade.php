@@ -24,6 +24,22 @@
         .act-btn:hover {
             background: white;
         }
+
+        th,
+        td {
+            white-space: nowrap !important;
+        }
+
+        .button-container {
+            overflow-x: auto;
+            white-space: nowrap;
+            display: flex;
+        }
+
+        .btn {
+            flex: 0 0 auto;
+            margin-right: 8px;
+        }
     </style>
 @endpush
 @section('content')
@@ -34,7 +50,7 @@
         <div class="col-md-12 px-1">
             <div class="row">
                 <div class="col-12 col-xl-8 mb-xl-0">
-                    <h3 class="font-weight-bold">Data User</h3>
+                    <h3 class="font-weight-bold">Daftar Harga</h3>
                 </div>
             </div>
         </div>
@@ -43,8 +59,11 @@
         <div class="row">
             <div class="col-12 px-1">
                 <div class="input-group mb-3 mt-3">
-                    <input type="text" value="{{ Request('q') }}" style="border: none;" class="form-control" name="q"
-                        placeholder="Type to Search or Clear to See All Data ...">
+                    <select name="q" id="q" style="border: none;" class="form-control">
+                        <option value="">TAMPILKAN SEMUANYA</option>
+                        <option>PEMBELIAN BARANG/JASA</option>
+                        <option>PENJUALAN BARANG/JASA</option>
+                    </select>
                     <button onclick="showLoadingIndicator()" type="submit" style="border: none; height: 38px;"
                         class="input-group-text bg-primary text-white" id="basic-addon2">
                         <i class="bi bi-search"></i>
@@ -55,28 +74,46 @@
     </form>
     <div class="row">
         <div class="col-12 px-1">
-            @foreach ($user as $item)
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <p><i class="bi bi-person"></i>
-                            <span class="text-danger">
-                                {{ $item->name }}
-                            </span>
-                        </p>
-                        <p><i class="bi bi-envelope"></i> {{ $item->email }} </p>
-                        <span class="badge bg-info text-white" style="border-radius: 8px;">{{ $item->role }}</span>
-                        <a data-toggle="modal" data-target="#modal" data-item="{{ json_encode($item) }}"
-                            href="javascript:void(0)" class="badge bg-info text-white" style="border-radius: 8px;">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                        <a href="#" onclick="hapusData({{ $item->id }})" class="badge bg-danger text-white"
-                            style="border-radius: 8px;">
-                            <i class="bi bi-trash"></i>
-                        </a>
-                    </div>
-                </div>
-            @endforeach
-            {{ $user->links() }}
+            <div class="table-responsive">
+                <table class="table bg-white table-striped" style="width: 100%;">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th width="5%">No</th>
+                            <th>Nama Harga / Biaya</th>
+                            <th>Harga / Biaya Untuk</th>
+                            <th>Harga / Biaya</th>
+                            <th width="5%"></th>
+                            <th width="5%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($data as $k => $item)
+                            <tr>
+                                <td>{{ $k + 1 }}</td>
+                                <td>
+                                    <div style="white-space: normal !important; word-wrap: break-word;">
+                                        {{ $item->nama_biaya }}
+                                    </div>
+                                </td>
+                                <td>{{ $item->biaya_untuk }}</td>
+                                <td>Rp. {{ number_format($item->biaya) }}</td>
+                                <td>
+                                    <a data-toggle="modal" data-target="#modal" data-item="{{ json_encode($item) }}"
+                                        href="javascript:void(0)">
+                                        <i class="bi bi-grid text-success" style="font-size: 1.5rem;"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#" onclick="hapusData({{ $item->id }})">
+                                        <i style="font-size: 1.5rem;" class="bi bi-trash text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            {{ $data->links() }}
         </div>
     </div>
     <!-- Modal -->
@@ -85,26 +122,28 @@
             <div class="modal-content">
                 <form id="form">
                     <div class="modal-header p-3">
-                        <h5 class="modal-title m-2" id="exampleModalLabel">User Form</h5>
+                        <h5 class="modal-title m-2" id="exampleModalLabel">Harga Form</h5>
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input name="email" id="email" type="email" placeholder="email"
-                                class="form-control form-control-sm" required>
-                            <span class="text-danger error" style="font-size: 12px;" id="email_alert"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Lengkap</label>
-                            <input name="name" id="name" type="text" placeholder="Nama Lengkap"
+                            <label>Judul Harga / Biaya <sup>*</sup></label>
+                            <input name="nama_biaya" id="nama_biaya" type="text" placeholder="nama Harga / Biaya"
                                 class="form-control form-control-sm" required>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input name="password" id="password" type="password" placeholder="Password"
+                            <label>Jenis Harga / Biaya <sup>*</sup></label>
+                            <select name="biaya_untuk" id="biaya_untuk" placeholder="nama Harga / Biaya"
                                 class="form-control form-control-sm" required>
-                            <span class="text-danger error" style="font-size: 12px;" id="password_alert"></span>
+                                <option>--PILIH JENIS HARGA UNTUK--</option>
+                                <option>PEMBELIAN BARANG/JASA</option>
+                                <option>PENJUALAN BARANG/JASA</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Harga / Biaya <sup>*</sup></label>
+                            <input name="biaya" id="biaya" type="number" placeholder="Harga / Biaya"
+                                class="form-control form-control-sm" required>
                         </div>
                     </div>
                     <div class="modal-footer p-3 d-flex align-items-end d-flex align-items-end">
@@ -130,7 +169,7 @@
 
             axios({
                     method: 'post',
-                    url: formData.get('id') == '' ? '/store-user' : '/update-user',
+                    url: formData.get('id') == '' ? '/store-biaya' : '/update-biaya',
                     data: formData,
                 })
                 .then(function(res) {
@@ -174,7 +213,7 @@
             }).then((result) => {
 
                 if (result.value) {
-                    axios.post('/delete-user', {
+                    axios.post('/delete-biaya', {
                             id
                         })
                         .then((response) => {
@@ -216,10 +255,9 @@
             if (recipient) {
                 var modal = $(this);
                 modal.find('#id').val(recipient.id);
-                modal.find('#name').val(recipient.name);
-                modal.find('#email').val(recipient.email);
-                modal.find('#no_telp').val(recipient.no_telp);
-                modal.find('#role').val(recipient.role);
+                modal.find('#nama_biaya').val(recipient.nama_biaya);
+                modal.find('#biaya_untuk').val(recipient.biaya_untuk);
+                modal.find('#biaya').val(recipient.biaya);
             }
         })
     </script>

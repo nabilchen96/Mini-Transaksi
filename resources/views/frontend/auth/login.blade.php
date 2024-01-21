@@ -16,7 +16,7 @@
     <!-- Style -->
     <link rel="stylesheet" href="login-form-02/css/style.css">
 
-    <title>Aplikasi Kegiatan IAD Kaur</title>
+    <title>Mini Transaksi App</title>
   </head>
   <body>
   
@@ -28,7 +28,7 @@
       <div class="container">
         <div class="row align-items-center justify-content-center">
           <div class="col-md-7">
-            <h3>Login to <br><strong>Aplikasi Kegiatan IAD</strong></h3>
+            <h3>Login to <br><strong>Apliaksi Transaksi</strong></h3>
             <p>Login untuk mengakses Aplikasi</p>
             
             <br>
@@ -64,9 +64,6 @@
                 </div>
                 <br>
               </form>
-              <a onclick="showLoadingIndicator()" href="{{ url('/') }}" style="text-decoration: none;" type="submit" id="btnLogin" class="text-white btn btn-info btn-lg btn-block">
-                🏠 Kembali
-              </a>
           </div>
         </div>
       </div>

@@ -4,30 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use App\Models\User;
 use Auth;
-use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
+use App\Models\Biaya;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends Controller
+class BiayaController extends Controller
 {
-    public function index()
-    {
+    public function index(){
 
         $q = Request('q');
-        $user = DB::table('users');
+        $data = DB::table('biayas');
 
         if ($q) {
-            $user = $user->where('name', 'like', '%' . $q . '%')
-                    ->orWhere('email', 'like', '%' . $q . '%')
+            $data = $data->where('biaya_untuk', 'like', '%' . $q . '%')
                     ->orderBy('id', 'DESC')
                     ->paginate(10);
         } else {
-            $user = $user->orderBy('id', 'DESC')->paginate(10);
+            $data = $data->orderBy('id', 'DESC')->paginate(10);
         }
 
-        return view('backend.users.index', [
-            'user' => $user
+        return view('backend.biaya.index', [
+            'data'  => $data
         ]);
     }
 
@@ -35,8 +33,7 @@ class UserController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'password' => 'required',
-            'email' => 'unique:users'
+            'nama_biaya' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -45,11 +42,10 @@ class UserController extends Controller
                 'respon' => $validator->errors()
             ];
         } else {
-            $data = User::create([
-                'name' => $request->name,
-                'role' => 'Admin',
-                'email' => $request->email,
-                'password' => Hash::make($request->password)
+            $data = Biaya::create([
+                'nama_biaya' => $request->nama_biaya, 
+                'biaya_untuk' => $request->biaya_untuk, 
+                'biaya' => $request->biaya
             ]);
 
             $data = [
@@ -75,13 +71,11 @@ class UserController extends Controller
             ];
         } else {
 
-            $user = User::find($request->id);
+            $user = Biaya::find($request->id);
             $data = $user->update([
-                'name' => $request->name,
-                'role' => 'Admin',
-                'email' => $request->email,
-                'no_telp' => $request->no_telp,
-                'password' => $request->password ? Hash::make($request->password) : $user->password
+                'nama_biaya' => $request->nama_biaya, 
+                'biaya_untuk' => $request->biaya_untuk, 
+                'biaya' => $request->biaya
             ]);
 
             $data = [
@@ -96,7 +90,7 @@ class UserController extends Controller
     public function delete(Request $request)
     {
 
-        $data = User::find($request->id)->delete();
+        $data = Biaya::find($request->id)->delete();
 
         $data = [
             'responCode' => 1,

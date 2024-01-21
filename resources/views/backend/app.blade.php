@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Aplikasi Kegiatan IAD Kaur</title>
+    <title>Mini Transaksi App</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('skydash/vendors/feather/feather.css') }}">
     <link rel="stylesheet" href="{{ asset('skydash/vendors/ti-icons/css/themify-icons.css') }}">
@@ -72,6 +72,15 @@
             font-size: 24px;
             z-index: 1000;
         }
+
+        .dropdown-toggle::after {
+            display: none !important;
+        }
+
+        .btn-group.dropup .dropdown-menu {
+            left: 50%;
+            transform: translateX(-50%);
+        }
     </style>
 
     <script language="javascript">
@@ -115,66 +124,54 @@
     </script>
 </head>
 
-<body>
+<body style="background: white;">
     <div class="loading-indicator" id="loadingIndicator">
         Loading...
     </div>
-    <div class="container-scroller">
-        <!-- partial:partials/_navbar.html -->
-        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center"
-                style="box-shadow: 0px 5px 21px -5px #CDD1E1;">
-                <a class="navbar-brand brand-logo mr-5" style="font-size: 16px; margin-left: 20px;"
-                    href="{{ url('/') }}">
-                    <h3>
-                        <img src="{{ asset('iad.png') }}" alt="">
-                    </h3>
+    <div class="container-scroller bg-white">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+            <div class="container-fluid container">
+                <a class="navbar-brand" href="#">
+                    {{ DB::table('profil_usahas')->value('nama_usaha') }}
                 </a>
-                <a class="navbar-brand brand-logo-mini" href="{{ url('/') }}">
-                    <img src="{{ asset('iad.png') }}" style="width: 35px !important; height: 35px !important;"
-                        alt="">
-                    {{-- <h4>
-                    </h4> --}}
-                </a>
-            </div>
-            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-                <button style="padding-left: 0;" class="navbar-toggler navbar-toggler align-self-center" type="button"
-                    data-toggle="minimize">
-                    <span class="icon-menu"></span>
-                </button>
-
-                <ul class="navbar-nav navbar-nav-right">
-                    <li class="nav-item nav-profile dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <i class="bi bi-person-circle" style="font-size: 30px !important;"></i>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ url('logout') }}">
+                            Logout <i class="bi bi-arrow-right"></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
-                            aria-labelledby="profileDropdown">
-                            <a class="dropdown-item" href="{{ url('logout') }}">
-                                <i class="ti-power-off text-primary"></i>
-                                Logout
-                            </a>
-                        </div>
                     </li>
-
                 </ul>
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                    data-toggle="offcanvas">
-                    <span class="icon-menu"></span>
-                </button>
             </div>
         </nav>
-        <!-- partial -->
-        <div class="container-fluid page-body-wrapper">
-            <!-- partial:partials/_settings-panel.html -->
-
-
+        <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-bottom border-top">
+            <div class="container-fluid container">
+                <a style="text-decoration: none;" class="text-center mt-1 mb-0" href="{{ url('dashboard') }}">
+                    <i class="bi bi-grid"></i>
+                    <p class="mb-0">Home</p>
+                </a>
+                <div class="btn-group dropup">
+                    <a style="text-decoration: none;" href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="text-center mt-1 mb-0">
+                            <i class="bi bi-gear"></i><br>
+                            <p class="mb-0">Setting</p>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- Dropdown menu links -->
+                        <li><a class="dropdown-item border-bottom" href="{{ url('user') }}"><i class="bi bi-person"></i> Users</a></li>
+                        <li><a class="dropdown-item border-bottom" href="{{ url('biaya') }}"><i class="bi bi-coin"></i> Daftar Harga</a></li>
+                        <li><a class="dropdown-item" href="{{ url('profil-usaha') }}"><i class="bi bi-building"></i> Profil Usaha</a></li>
+                    </ul>
+                </div>
+                <a style="text-decoration: none;" class="text-center mt-1 mb-0" href="{{ url('transaksi') }}">
+                    <i class="bi bi-repeat"></i>
+                    <p class="mb-0">Transaksi</p>
+                </a>
+            </div>
+        </nav>
+        <div class="container-fluid page-body-wrapper" style="background: #F5F7FF;">
             <!-- partial -->
-            <!-- partial:partials/_sidebar.html -->
-            @include('backend.components.navbar')
-
-            <!-- partial -->
-            <div class="main-panel">
+            <div class="main-panel" style="width: 100% !important;">
 
                 <div
                     style="
@@ -187,21 +184,21 @@
                     width: 100%;">
 
                 </div>
-                <div class="content-wrapper">
+                <div class="content-wrapper px-4 mb-5 container">
                     @yield('content')
                 </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.html -->
-                <footer class="footer">
+                {{-- <footer class="mb-5 footer container">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
                     </div>
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">
                             Developed by <a href="https://porkaone.com">Nabil Putra</a> <br>
-                            Ikatan Adhyaksa Dharmakarini Kaur
+                            <a href="https://nabilchen96.github.io/jasa-pembuatan-website/"><i>sahredev {{ date('Y') }}</i></a>
                         </span>
                     </div>
-                </footer>
+                </footer> --}}
                 <!-- partial -->
             </div>
             <!-- main-panel ends -->
@@ -234,6 +231,12 @@
     <script src="{{ asset('skydash/js/Chart.roundedBarCharts.js') }}"></script>
     <script src="https://unpkg.com/axios@0.27.2/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.7/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
     <!-- script tambahan  -->
 
     <!-- End custom js for this page

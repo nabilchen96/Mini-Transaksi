@@ -71,58 +71,58 @@
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                     <h3 class="font-weight-bold">Dashboard</h3>
                     <h6 class="font-weight-normal mb-0">Hi, {{ Auth::user()->name }}.
-                        Welcome back to SIstem Informasi SPI</h6>
+                        Welcome back to Mini Transaksi App</h6>
                 </div>
             </div>
             <div class="row mt-4">
-                <div class="col-lg-3 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card card-tale text-white shadow pt-2 mb-2">
                         <div class="card-body p-4">
-                            <h4 class="mb-4">Total Anggota</h4>
-                            <h3 class="fs-30 mb-2">{{ @$anggota ?? 0 }}</h3>
+                            <h4 class="mb-4">Pendapatan Hari Ini</h4>
+                            <h3 class="mb-2">Rp. {{ number_format(@$harian) ?? 0 }}</h3>
                             <span>
-                                <a href="{{ url('anggota') }}" class="text-white">
-                                    List Anggota <i class="bi bi-arrow-right"></i>
+                                <a href="{{ url('transaksi') }}" class="text-white">
+                                    Lihat Detail <i class="bi bi-arrow-right"></i>
                                 </a>
                             </span>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card card-dark-blue text-white shadow pt-2 mb-2">
                         <div class="card-body p-4">
-                            <h4 class="mb-4">Upcoming Agenda</h4>
-                            <h3 class="fs-30 mb-2">{{ @$agenda ?? 0 }}</h3>
+                            <h4 class="mb-4">Pendapatan Bulan Ini</h4>
+                            <h3 class="mb-2">Rp. {{ number_format(@$bulanan) ?? 0 }}</h3>
                             <span>
-                                <a href="{{ url('agenda') }}" class="text-white">
-                                    List Agenda <i class="bi bi-arrow-right"></i>
+                                <a href="{{ url('transaksi') }}" class="text-white">
+                                    Lihat Detail <i class="bi bi-arrow-right"></i>
                                 </a>
                             </span>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-3 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card card-light-blue text-white shadow pt-2 mb-2">
                         <div class="card-body p-4">
-                            <h4 class="mb-4">Penjualan Bulanan</h4>
-                            <h4 class="fs-30 mb-2">Rp. {{ @@number_format($penjualan) ?? 0 }}</h4>
+                            <h4 class="mb-4">Pendapatan Tahun Ini</h4>
+                            <h3 class="mb-2">Rp. {{ number_format(@$tahunan) ?? 0 }}</h3>
                             <span>
-                                <a href="{{ url('penjualan') }}" class="text-white">
-                                    List Penjualan <i class="bi bi-arrow-right"></i>
+                                <a href="{{ url('transaksi') }}" class="text-white">
+                                    Lihat Detail <i class="bi bi-arrow-right"></i>
                                 </a>
                             </span>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card card-light-danger text-white shadow pt-2 mb-2">
                         <div class="card-body p-4">
-                            <h4 class="mb-4">Sisa Cicilan</h4>
-                            <h3 class="fs-30 mb-2">Rp. {{ number_format($cicilan) ?? 0 }}</h3>
+                            <h4 class="mb-4">Semua Pendapatan</h4>
+                            <h3 class="mb-2">Rp. {{ number_format(@$total_pendapatan) ?? 0 }}</h3>
                             <span>
-                                <a href="{{ url('cicilan') }}" class="text-white">
-                                    List Cicilan <i class="bi bi-arrow-right"></i>
+                                <a href="{{ url('transaksi') }}" class="text-white">
+                                    Lihat Detail <i class="bi bi-arrow-right"></i>
                                 </a>
                             </span>
                         </div>
