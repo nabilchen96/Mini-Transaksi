@@ -36,8 +36,8 @@
             {{-- @if ($jaringan) --}}
               <form id="formLogin">
                 <div class="form-group first">
-                  <label for="username">Email</label>
-                  <input type="text" class="form-control" placeholder="your-email@gmail.com" id="email" name="email">
+                  <label for="username">Email or Username</label>
+                  <input type="text" class="form-control" placeholder="Email or Username" id="email" name="email">
                 </div>
                 <div class="form-group last mb-3">
                   <label for="password">Password</label>

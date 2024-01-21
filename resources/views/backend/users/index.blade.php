@@ -90,8 +90,8 @@
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input name="email" id="email" type="email" placeholder="email"
+                            <label for="exampleInputEmail1">Email address or Username</label>
+                            <input name="email" id="email" type="text" placeholder="email or username"
                                 class="form-control form-control-sm" required>
                             <span class="text-danger error" style="font-size: 12px;" id="email_alert"></span>
                         </div>
